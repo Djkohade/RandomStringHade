@@ -6,19 +6,19 @@
 	* echo RandomStringHade(8);
 	
 	* Выведет 6 случайных буквы из анг. алфавита
-	* echo RandomStringHade(6,'letters_en');
+	* echo RandomStringHade(6, 'letters_en');
 	
 	* Выведет 6 случайных буквы из Русс. алфавита
-	* echoRandomStringHade(6,'letters_ru');
+	* echoRandomStringHade(6, 'letters_ru');
 	
 	* Выведет 5 случайных чисел которые не будут повторяться
-	* echo RandomStringHade(5,'num');
+	* echo RandomStringHade(5, 'num');
 	
 	* Выведет 5 случайных символов со всякими решётками и собаками
-	* echo RandomStringHade(5,'trash');
+	* echo RandomStringHade(5, 'trash');
 	
 	* Выведет реально случайный текст с обозначенным числом символов
-	* echo RandomStringHade(5,'real_random');
+	* echo RandomStringHade(5, 'real_random');
 	
 	* Выведет рандомный текст из своих символов и букв
 	* echo RandomStringHade(5, 'custom','@135790absUSB@');
