@@ -4,9 +4,9 @@
  * RandomStringHade
  *
  * @author Djkohade
- * @version 2.0.0
+ * @version 3.0.0
  * @created 2017
- * @updated 2022, 2024
+ * @updated 2022, 2024, 2026
  *
  * Функция содержит в себе возможность генерировать как случайные числа, так и буквы, а также по заданному шаблону.
  *
@@ -41,37 +41,7 @@
  */
 
 function RandomStringHade($num = 6, $type = 'all', $custom = false, $exclude = '') {
-    // Проверка на корректность входных данных
-    if (!is_int($num) || $num <= 0) {
-        throw new InvalidArgumentException('Parameter $num must be a positive integer.');
-    }
-
-    $data = [
-        'all' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#%$*()[];.^&',
-        'letters_en' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        'letters_ru' => 'абвгдежзийклмнопрстуфчцчшщыэюяАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ',
-        'num' => '0123456789',
-        'trash' => '@#%$*()[];.^&',
-    ];
-
-    // Установка набора символов
-    $output = $type === 'custom' ? $custom : ($data[$type] ?? $data['all']);
-
-    // Исключение нежелательных символов
-    $output = str_replace(str_split($exclude), '', $output);
-
-    // Генерация случайной строки
-    if ($type === 'real_random') {
-        $result = '';
-        for ($i = 0; $i < $num; ++$i) {
-            $result .= $output[random_int(0, strlen($output) - 1)];
-        }
-        return $result;
-    } else {
-        return substr(str_shuffle($output), 0, $num);
-    }
-	
-    // Генерация уникальных значений
+    // Уникальные строки не требуют длины и набора символов
     if ($type === 'uniqid') {
         return sprintf('%04x%04x%04x%04x%04x%04x%04x%04x',
             random_int(0, 0xffff), random_int(0, 0xffff),
@@ -86,7 +56,38 @@ function RandomStringHade($num = 6, $type = 'all', $custom = false, $exclude = '
         return uniqid();
     }
 
-    return $output;
-}
+    // Проверка на корректность входных данных
+    if (!is_int($num) || $num <= 0) {
+        throw new InvalidArgumentException('Parameter $num must be a positive integer.');
+    }
 
+    $data = [
+        'all' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#%$*()[];.^&',
+        'letters_en' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        'letters_ru' => 'абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ',
+        'num' => '0123456789',
+        'trash' => '@#%$*()[];.^&',
+    ];
+
+    // Установка набора символов
+    $output = $type === 'custom' ? $custom : ($data[$type] ?? $data['all']);
+
+    if ($output === false || !is_string($output) || $output === '') {
+        throw new InvalidArgumentException('Character set must be a non-empty string.');
+    }
+
+    // Исключение нежелательных символов
+    $output = str_replace(str_split($exclude), '', $output);
+
+    // Генерация случайной строки
+    if ($type === 'real_random') {
+        $result = '';
+        for ($i = 0; $i < $num; ++$i) {
+            $result .= $output[random_int(0, strlen($output) - 1)];
+        }
+        return $result;
+    }
+
+    return substr(str_shuffle($output), 0, $num);
+}
 ?>
